@@ -1,0 +1,1210 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TrackerDog</name>
+    </assembly>
+    <members>
+        <member name="T:TrackerDog.ChangeTrackableObjectState">
+            <summary>
+            Defines possible change-tracked object states
+            </summary>
+        </member>
+        <member name="F:TrackerDog.ChangeTrackableObjectState.Constructing">
+            <summary>
+            Trackable object is being built
+            </summary>
+        </member>
+        <member name="F:TrackerDog.ChangeTrackableObjectState.Ready">
+            <summary>
+            Trackable object is ready to track changes
+            </summary>
+        </member>
+        <member name="P:TrackerDog.CollectionChangeTrackingContext.Configuration">
+            <summary>
+            Gets associated change-tracking configuration
+            </summary>
+        </member>
+        <member name="M:TrackerDog.CollectionExtensions.ClearChanges``1(System.Collections.Generic.ICollection{``0})">
+            <summary>
+            Clears changes tracked by given collection.
+            </summary>
+            <typeparam name="TItem"></typeparam>
+            <param name="source"></param>
+        </member>
+        <member name="T:TrackerDog.CollectionHandling.CollectionChange">
+            <summary>
+            Represents an enumeration of possible collection changes
+            </summary>
+        </member>
+        <member name="F:TrackerDog.CollectionHandling.CollectionChange.None">
+            <summary>
+            No change happened
+            </summary>
+        </member>
+        <member name="F:TrackerDog.CollectionHandling.CollectionChange.Add">
+            <summary>
+            One or more items have been added
+            </summary>
+        </member>
+        <member name="F:TrackerDog.CollectionHandling.CollectionChange.Remove">
+            <summary>
+            One or more items have been removed
+            </summary>
+        </member>
+        <member name="T:TrackerDog.CollectionHandling.CollectionChangeContext">
+            <summary>
+            Represents a set of available information to collection change handling participants like 
+            collection change interceptors.
+            </summary>
+        </member>
+        <member name="P:TrackerDog.CollectionHandling.CollectionChangeContext.Collection">
+            <summary>
+            Gets the collection subject of changes
+            </summary>
+        </member>
+        <member name="P:TrackerDog.CollectionHandling.CollectionChangeContext.ItemsBefore">
+            <summary>
+            Gets a copy of collection items before the collection was changed
+            </summary>
+        </member>
+        <member name="P:TrackerDog.CollectionHandling.CollectionChangeContext.ParentObjectProperty">
+            <summary>
+            Gets a reference to the property which holds the collection instance
+            </summary>
+        </member>
+        <member name="P:TrackerDog.CollectionHandling.CollectionChangeContext.AddedItems">
+            <summary>
+            Gets the set of added item tracking
+            </summary>
+        </member>
+        <member name="P:TrackerDog.CollectionHandling.CollectionChangeContext.RemovedItems">
+            <summary>
+            Gets the set of removed item tracking
+            </summary>
+        </member>
+        <member name="P:TrackerDog.CollectionHandling.CollectionChangeContext.Change">
+            <summary>
+            Gets or sets the change produced by a collection change handler like a collection change interceptor
+            </summary>
+        </member>
+        <member name="T:TrackerDog.CollectionHandling.DefaultCollectionChangeInterceptor`1">
+            <summary>
+            Represents the default collection change interceptor. It intercepts any implementation of
+            <see cref="T:System.Collections.Generic.ICollection`1"/> interface.
+            </summary>
+            <typeparam name="T">The type of collection items</typeparam>
+        </member>
+        <member name="T:TrackerDog.CollectionHandling.SetChangeInterceptor`1">
+            <summary>
+            Represents default set collection change interceptor. It intercepts any implementation of
+            <see cref="T:System.Collections.Generic.ISet`1"/> interface.
+            </summary>
+            <typeparam name="T">The type of collection items</typeparam>
+        </member>
+        <member name="T:TrackerDog.Configuration.ChangeTrackableAttribute">
+            <summary>
+            Either marks a class, interface or a property to be change-trackable
+            </summary>
+        </member>
+        <member name="T:TrackerDog.Configuration.CollectionImplementation">
+            <summary>
+            Represents a collection implementation information
+            </summary>
+        </member>
+        <member name="M:TrackerDog.Configuration.CollectionImplementation.#ctor(System.Type,System.Type)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="type">The collection implementation type</param>
+            <param name="changeInterceptorType">The collection change interceptor implementation type</param>
+        </member>
+        <member name="P:TrackerDog.Configuration.CollectionImplementation.Type">
+            <summary>
+            Gets the collection implementation type
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.CollectionImplementation.ChangeInterceptor">
+            <summary>
+            Gets the collection change interceptor implementation type
+            </summary>
+        </member>
+        <member name="T:TrackerDog.Configuration.DoNotTrackChangesAttribute">
+            <summary>
+            Marks a property to be ignored from being change-tracked
+            </summary>
+        </member>
+        <member name="T:TrackerDog.Configuration.ITrackableType`1">
+            <summary>
+            Defines the configuration of a trackable type
+            </summary>
+        </member>
+        <member name="T:TrackerDog.Configuration.TrackableType`1">
+            <summary>
+            Represents the default implementation to a fluent trackable type configuration.
+            </summary>
+            <typeparam name="T">The tracked object type</typeparam>
+        </member>
+        <member name="M:TrackerDog.Configuration.TrackableType`1.IncludeProperty(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Configures a property to be change-tracked for the current tracked type.
+            </summary>
+            <param name="propertySelector">A property selector to select which property to track its changes</param>
+            <returns>Current trackable type configuration</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.TrackableType`1.IncludeProperties(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <summary>
+            Configures multiple properties to be change-tracked for the current tracked type.
+            </summary>
+            <param name="propertySelectors">One or more property selectors to select which properties to track its changes</param>
+            <returns>Current trackable type configuration</returns>
+        </member>
+        <member name="T:TrackerDog.Configuration.ICollectionChangeTrackingConfiguration">
+            <summary>
+            Defines collection change-tracking configuration 
+            </summary>
+        </member>
+        <member name="M:TrackerDog.Configuration.ICollectionChangeTrackingConfiguration.CanTrack(System.Type)">
+            <summary>
+            Determines if a given type is a collection that has been configured to track its changes
+            </summary>
+            <param name="some">A collection type</param>
+            <returns><literal>true</literal> if it can be tracked, <literal>false</literal> if it cannot be tracked</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.ICollectionChangeTrackingConfiguration.GetImplementation(System.Type)">
+            <summary>
+            Gets configured collection type implementation for a given collection interface
+            </summary>
+            <param name="some">A collection interface type</param>
+            <returns></returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.ICollectionChangeTrackingConfiguration.AddOrUpdateImplementation``3">
+            <summary>
+            Adds or updates a collection change tracking implementations.
+            </summary>
+            <typeparam name="TInterface">The collection interface of the collection to which the change tracking implementation should track</typeparam>
+            <typeparam name="TImplementation">The collection implementation of the given collection interface</typeparam>
+            <typeparam name="TCollectionChangeInterceptor">The collection change tracking implementation</typeparam>
+        </member>
+        <member name="T:TrackerDog.Configuration.IConfigurableTrackableType">
+            <summary>
+            Defines how a trackable type can be configured
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.IConfigurableTrackableType.Type">
+            <summary>
+            Gets the type to be tracked
+            </summary>
+        </member>
+        <member name="M:TrackerDog.Configuration.IConfigurableTrackableType.IncludeProperty(System.Reflection.PropertyInfo)">
+            <summary>
+            Configures a given property to be tracked for current type. The property must be declared on the type being configured.
+            </summary>
+            <param name="property">The property to configure</param>
+            <returns>Current configurable trackable type</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IConfigurableTrackableType.IncludeProperties(System.Reflection.PropertyInfo[])">
+            <summary>
+            Configures multiple properties to be change-tracked for the current tracked type.
+            </summary>
+            <param name="properties">One or more properties to track its changes</param>
+            <returns>Current trackable type configuration</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IConfigurableTrackableType.IncludeProperties(System.Collections.Generic.IEnumerable{System.Reflection.PropertyInfo})">
+            <summary>
+            Configures multiple properties to be change-tracked for the current tracked type.
+            </summary>
+            <param name="properties">One or more properties to track its changes</param>
+            <returns>Current trackable type configuration</returns>
+        </member>
+        <member name="T:TrackerDog.Configuration.IConfigurableTrackableType`1">
+            <summary>
+            Defines how a trackable type can be configured
+            </summary>
+            <typeparam name="T">The type to be tracked</typeparam>
+        </member>
+        <member name="M:TrackerDog.Configuration.IConfigurableTrackableType`1.IncludeProperty(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Configures a property to be trackable by provoding an expression which selects the whole property
+            </summary>
+            <param name="propertySelector">The expression to select the property to track for changes</param>
+            <returns>Current configurable trackable type</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IConfigurableTrackableType`1.IncludeProperties(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <summary>
+            Configures a property to be trackable by provoding an expression which selects the whole property
+            </summary>
+            <param name="propertySelectors">One or many property selectors of properties to be tracked for changes</param>
+            <returns>Current configurable trackable type</returns>
+        </member>
+        <member name="T:TrackerDog.Configuration.IObjectChangeTrackingConfiguration">
+            <summary>
+            Defines the required set of members to configure object change tracking
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.Collections">
+            <summary>
+            Gets access to collection change tracking specific configuration
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.TrackableInterfaceTypes">
+            <summary>
+            Gets configured types to be tracked that are interfaces
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.TrackableTypes">
+            <summary>
+            Gets configured types to be tracked
+            </summary>
+        </member>
+        <member name="M:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.TrackThisType``1(System.Action{TrackerDog.Configuration.IConfigurableTrackableType{``0}})">
+            <summary>
+            Configures given type as generic parameter to be change-trackable
+            </summary>
+            <typeparam name="T">The type to which its instances will be change-trackable</typeparam>
+            <param name="configure">A configuration action. It receives a trackable type instance to be configured beyond defaults</param>
+            <returns>Current configuration instance</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.TrackThisType(System.Type,System.Action{TrackerDog.Configuration.IConfigurableTrackableType})">
+            <summary>
+            Configures given type to be change-trackable
+            </summary>
+            <param name="type">The type to which its instances will be change-trackable</param>
+            <param name="configure">A configuration action. It receives a trackable type instance to be configured beyond defaults</param>
+            <returns>Current configuration instance</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.TrackThisTypeRecursive``1(System.Action{TrackerDog.Configuration.IConfigurableTrackableType},TrackerDog.Configuration.TypeSearchSettings)">
+            <summary>
+            Configures given type given as generic parameter to be change-trackable and recurisvely configures all associated types within 
+            any nesting level to be also change-trackable.
+            </summary>
+            <typeparam name="TRoot">The type of root change-trackable type</typeparam>
+            <param name="searchSettings">Search settings</param>
+            <param name="configure">A predicate to customize configuration for each found type</param>
+            <returns>Current configuration instance</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.TrackThisTypeRecursive(System.Type,System.Action{TrackerDog.Configuration.IConfigurableTrackableType},TrackerDog.Configuration.TypeSearchSettings)">
+            <summary>
+            Configures given type given as parameter to be change-trackable and recurisvely configures all associated types within 
+            any nesting level to be also change-trackable.
+            </summary>
+            <param name="rootType">The type of root change-trackable type</param>
+            <param name="configure">A predicate to customize configuration for each found type</param>
+            <param name="searchSettings">Search settings</param>
+            <returns>Current configuration instance</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.TrackTypesFromAssembly(System.String,System.Action{TrackerDog.Configuration.IConfigurableTrackableType},TrackerDog.Configuration.TypeSearchSettings)">
+            <summary>
+            Configures types from a given assembly to be change-trackable based on provided search settings
+            </summary>
+            <param name="assemblyName">The assembly name containing the types to configure</param>
+            <param name="searchSettings">Search settings</param>
+            <param name="configure">A predicate to customize configuration for each found type</param>
+            <returns>Current configuration instance</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.TrackTypesFromAssembly(System.Reflection.Assembly,System.Action{TrackerDog.Configuration.IConfigurableTrackableType},TrackerDog.Configuration.TypeSearchSettings)">
+            <summary>
+            Configures types from a given assembly to be change-trackable based on provided search settings
+            </summary>
+            <param name="assembly">The assembly containing the types to configure</param>
+            <param name="searchSettings">Search settings</param>
+            <param name="configure">A predicate to customize configuration for each found type</param>
+            <returns>Current configuration instance</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.GetTrackableType(System.Type)">
+            <summary>
+            Gets a trackable type configuration by giving its type
+            </summary>
+            <param name="type">The already configured type to be change-trackable</param>
+            <returns></returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.GetAllTrackableBaseTypes(TrackerDog.Configuration.ITrackableType)">
+            <summary>
+            Gets all base trackable types of a given other trackable type
+            </summary>
+            <param name="trackableType">The trackable type to look for its base types</param>
+            <returns>All found base trackable types</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.CanTrackType(System.Type)">
+            <summary>
+            Given an arbitrary type, returns if it is an already configured trackable type
+            </summary>
+            <param name="someType">The type to check</param>
+            <returns><literal>true</literal> if it is trackable, <literal>false</literal> if it is not trackable</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.ImplementsBaseType(System.Type,TrackerDog.Configuration.ITrackableType@)">
+            <summary>
+            Given an arbitrary type, returns if there is some already configured trackable type that is a base type of itself.
+            </summary>
+            <param name="someType">Type to check</param>
+            <param name="baseType">Found base trackable type</param>
+            <returns><literal>true</literal> if some base type is found, <literal>false</literal>if no type is found</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.CanTrackProperty(System.Reflection.PropertyInfo)">
+            <summary>
+            Given an arbitrary reflected property, determines if it is configured to be trackable in some already configured trackable type.
+            </summary>
+            <param name="property">Property to check</param>
+            <returns><literal>true</literal> if it can be trackable, <literal>false</literal> if it cannot be trackable</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.IObjectChangeTrackingConfiguration.CreateTrackableObjectFactory">
+            <summary>
+            Creates a factory to turn any elegible object into a change-trackable one
+            </summary>
+            <returns>A trackable object factory</returns>
+        </member>
+        <member name="T:TrackerDog.Configuration.ITrackableType">
+            <summary>
+            Defines the configuration of a trackable type
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.ITrackableType.Type">
+            <summary>
+            Gets the type being tracked
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.ITrackableType.ObjectPaths">
+            <summary>
+            Gets a map of full associated trackable objects.
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.ITrackableType.IncludedProperties">
+            <summary>
+            Gets which properties should be tracked for the tracked type.
+            </summary>
+        </member>
+        <member name="T:TrackerDog.Configuration.ITrackableTypeEqualityComparer">
+            <summary>
+            Represents the default equality comparer to <see cref="T:TrackerDog.Configuration.ITrackableType"/> implementations. The equality
+            is based on <see cref="P:TrackerDog.Configuration.ITrackableType.Type"/> property.
+            </summary>
+        </member>
+        <member name="T:TrackerDog.Configuration.ObjectChangeTrackingConfiguration">
+            <summary>
+            Represents the object change tracking configuration.
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.ObjectChangeTrackingConfiguration.TrackableTypes">
+            <summary>
+            Gets current white list of types to which its instances will support change tracking.
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.ObjectChangeTrackingConfiguration.TrackableInterfaceTypes">
+            <summary>
+            Gets current white list of types to which its instances will support change tracking.
+            </summary>
+        </member>
+        <member name="M:TrackerDog.Configuration.ObjectChangeTrackingConfiguration.TrackTheseTypes(TrackerDog.Configuration.ITrackableType[])">
+            <summary>
+            Configures which types will support change tracking.
+            </summary>
+            <param name="types">The types to track its changes</param>
+        </member>
+        <member name="M:TrackerDog.Configuration.ObjectChangeTrackingConfiguration.GetTrackableType(System.Type)">
+            <summary>
+            Gets a configured trackable type by type, or returns null if it's not already configured.
+            </summary>
+            <param name="type">The whole type to get its tracking configuration</param>
+            <returns>The configured trackable type by type, or returns null if it's not already configured</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.ObjectChangeTrackingConfiguration.CanTrackType(System.Type)">
+            <summary>
+            Determines if a given type is configured to be change-tracked.
+            </summary>
+            <param name="someType">The whole type to check</param>
+            <returns><literal>true</literal> if it can be tracked, <literal>false</literal> if it can't be tracked</returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.ObjectChangeTrackingConfiguration.CanTrackProperty(System.Reflection.PropertyInfo)">
+            <summary>
+            Determines if a given property holds an object type configured as a trackable type
+            </summary>
+            <param name="property">The whole property to check</param>
+            <returns><literal>true</literal> if helds an object type configured as a trackable type, <literal>false</literal> if not </returns>
+        </member>
+        <member name="T:TrackerDog.Configuration.TrackableCollectionConfiguration">
+            <summary>
+            Represents a configuration to setup how collection change tracking will behave.
+            </summary>
+        </member>
+        <member name="M:TrackerDog.Configuration.TrackableCollectionConfiguration.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.TrackableCollectionConfiguration.Implementations">
+            <summary>
+            Gets a dictionary of implementations to common collection interfaces.
+            </summary>
+        </member>
+        <member name="M:TrackerDog.Configuration.TrackableCollectionConfiguration.CanTrack(System.Type)">
+            <summary>
+            Determines if given type can be tracked as collection
+            </summary>
+            <param name="some">The whole type to check</param>
+            <returns><literal>true</literal> if it can be tracked as collection, <literal>false if it can't be tracked as collection</literal></returns>
+        </member>
+        <member name="M:TrackerDog.Configuration.TrackableCollectionConfiguration.GetImplementation(System.Type)">
+            <summary>
+            Gets the implementation of a given type. The given type can or cannot be a collection interface, but
+            it can be also an actual collection type. This method will return the most appropiate generic collection
+            implementation to the given type.
+            </summary>
+            <param name="some">The whole collection type</param>
+            <returns>A pair, where the key is the collection interface and value is the collection implementation</returns>
+        </member>
+        <member name="T:TrackerDog.Configuration.TrackableType">
+            <summary>
+            Represents the default implementation to a fluent trackable type configuration.
+            </summary>
+        </member>
+        <member name="T:TrackerDog.Configuration.TypeSearchMode">
+            <summary>
+            Defines how type search must be performed during configuration stage
+            </summary>
+        </member>
+        <member name="F:TrackerDog.Configuration.TypeSearchMode.All">
+            <summary>
+            All types are elegible to be configured
+            </summary>
+        </member>
+        <member name="F:TrackerDog.Configuration.TypeSearchMode.AttributeConfigurationOnly">
+            <summary>
+            Only types with <see cref="T:TrackerDog.Configuration.ChangeTrackableAttribute"/> are eleigble to be configured
+            </summary>
+        </member>
+        <member name="T:TrackerDog.Configuration.TypeSearchSettings">
+            <summary>
+            Defines specific settings when supporting operations search types
+            during configuration stages.
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.TypeSearchSettings.Filter">
+            <summary>
+            Gets or sets a filter to include or exclude types from a given search.
+            </summary>
+            <example>
+            <para>For example the following filter would restrict the change-tracking behavior to
+            just types that derives a class called <codeInline>DomainObject</codeInline></para>
+            <code language="c#">
+            settings.Filter = t => typeof(DomainObject).IsAssignableFrom(t);
+            </code>
+            </example>
+        </member>
+        <member name="P:TrackerDog.Configuration.TypeSearchSettings.Recursive">
+            <summary>
+            Gets or sets a flag to determine if types should be configured recursively.
+            </summary>
+        </member>
+        <member name="P:TrackerDog.Configuration.TypeSearchSettings.Mode">
+            <summary>
+            Gets or sets search mode. See <see cref="T:TrackerDog.Configuration.TypeSearchMode"/> to learn more about available modes.
+            </summary>
+        </member>
+        <member name="T:TrackerDog.DeclaredObjectPropertyChangeEventArgs">
+            <summary>
+            Represents the arguments for <see cref="E:TrackerDog.IObjectChangeTracker.Changed"/> event for a declared property change.
+            </summary>
+        </member>
+        <member name="M:TrackerDog.DeclaredObjectPropertyChangeEventArgs.#ctor(System.Object,TrackerDog.IDeclaredObjectPropertyChangeTracking)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="targetObject">The object that changed</param>
+            <param name="propertyChangeTracking">The property change tracking of the declared property that changed on the target object</param>
+        </member>
+        <member name="P:TrackerDog.DeclaredObjectPropertyChangeEventArgs.GraphTrackingInfo">
+            <summary>
+            Gets an instance of the object graph information to introspect graph's details
+            </summary>
+        </member>
+        <member name="T:TrackerDog.DynamicObjectExtensions">
+            <summary>
+            Represents a set of <see cref="T:System.Dynamic.DynamicObject"/> extension methods.
+            </summary>
+        </member>
+        <member name="M:TrackerDog.DynamicObjectExtensions.GetDynamicMember(System.Object,System.String)">
+            <summary>
+            Calls a dynamic property to get its value
+            </summary>
+            <param name="obj">The dynamic object</param>
+            <param name="memberName">The property name to gets its value</param>
+            <returns>The property value</returns>
+        </member>
+        <member name="M:TrackerDog.DynamicObjectExtensions.SetDynamicMember(System.Object,System.String,System.Object)">
+            <summary>
+            Calls a dynamic property to set its value
+            </summary>
+            <param name="obj">The dynamic object</param>
+            <param name="memberName">The property name to gets its value</param>
+            <param name="value">The property value to set</param>
+            <returns>The property value</returns>
+        </member>
+        <member name="M:TrackerDog.EnumerableExtensions.CloneEnumerable(System.Collections.IEnumerable,TrackerDog.Configuration.IObjectChangeTrackingConfiguration)">
+            <summary>
+            Clones the given <see cref="T:System.Collections.IEnumerable"/> concrete implementation
+            </summary>
+            <param name="enumerable">The <see cref="T:System.Collections.IEnumerable"/> to clone</param>
+            <param name="configuration">Configuration to use to determine how to clone the whole enumerable</param>
+            <returns>The cloned enumerable</returns>
+        </member>
+        <member name="M:TrackerDog.EnumerableExtensions.MakeAllTrackable``1(System.Collections.Generic.IEnumerable{``0},TrackerDog.Configuration.IObjectChangeTrackingConfiguration,TrackerDog.ITrackableObjectFactory,System.Reflection.PropertyInfo,TrackerDog.IChangeTrackableObject)">
+            <summary>
+            Turns all objects into change-trackable ones found in the given sequence.
+            </summary>
+            <typeparam name="T">The type of objects</typeparam>
+            <param name="enumerable">The sequence of objects to turn into change-trackable ones</param>
+            <param name="parentObjectProperty">The collection property representing the association to some object</param>
+            <param name="parentObject">The parent object that owns the association of the collection</param>
+            <returns>The already converted objects into change-trackable ones</returns>
+        </member>
+        <member name="T:TrackerDog.IChangeTrackableCollection">
+            <summary>
+            Defines a collection that can track changes of itself and its items.
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IChangeTrackableCollection.AddedItems">
+            <summary>
+            Gets added items
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IChangeTrackableCollection.RemovedItems">
+            <summary>
+            Gets removed items
+            </summary>
+        </member>
+        <member name="M:TrackerDog.IChangeTrackableCollection.RaiseCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedAction,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Raises the collection changed event to let a change tracker be aware that the collection has changed.
+            </summary>
+            <param name="action">The action that changed the collection</param>
+            <param name="changedItems">Which items have changed</param>
+        </member>
+        <member name="T:TrackerDog.IChangeTrackableObject">
+            <summary>
+            Defines an object that allows its changes to be tracked.
+            </summary>
+        </member>
+        <member name="M:TrackerDog.IChangeTrackableObject.StartTracking(TrackerDog.IChangeTrackableObject,TrackerDog.ObjectChangeTracker)">
+            <summary>
+            Starts tracking this object.
+            </summary>
+            <param name="trackableObject">The object to be tracked</param>
+            <param name="currentTracker">A different change tracker than the associated to this object to track current object</param>
+        </member>
+        <member name="T:TrackerDog.IDeclaredObjectPropertyChangeTracking">
+            <summary>
+            Defines the state of some trackable object property
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IDeclaredObjectPropertyChangeTracking.Property">
+            <summary>
+            Gets the tracked property
+            </summary>
+        </member>
+        <member name="T:TrackerDog.IHasParent">
+            <summary>
+            Defines an object that has a 1-1 association with some parent object that is already change-trackable
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IHasParent.ParentObject">
+            <summary>
+            Gets the parent change-trackable object
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IHasParent.ParentObjectProperty">
+            <summary>
+            Gets the parent change-trackable object property holding current side of the 1-1 association
+            </summary>
+        </member>
+        <member name="T:TrackerDog.IObjectChangeTracker">
+            <summary>
+            Defines an object change tracker.
+            </summary>
+        </member>
+        <member name="E:TrackerDog.IObjectChangeTracker.Changed">
+            <summary>
+            Occurs when a property change tracking changes
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectChangeTracker.ChangedProperties">
+            <summary>
+            Gets a set of already changed properties
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectChangeTracker.UnchangedProperties">
+            <summary>
+            Gets a set of unchanged properties
+            </summary>
+        </member>
+        <member name="M:TrackerDog.IObjectChangeTracker.GetTrackingByProperty``2(System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Gets an object property tracking by specifying a property selector
+            </summary>
+            <typeparam name="T">The type of the object owning the whole property tracking to get</typeparam>
+            <typeparam name="TProperty">The return type of the property owned by the change-tracked object</typeparam>
+            <param name="propertySelector">The property selector</param>
+            <returns>The object property tracking</returns>
+        </member>
+        <member name="M:TrackerDog.IObjectChangeTracker.GetTrackingByProperty(System.Reflection.PropertyInfo)">
+            <summary>
+            Gets an object property tracking by specifying a property
+            </summary>
+            <param name="property">The property</param>
+            <returns>The object property tracking</returns>
+        </member>
+        <member name="M:TrackerDog.IObjectChangeTracker.GetDynamicTrackingByProperty(System.String)">
+            <summary>
+            Gets a dynamic object property tracking by specifying a property name
+            </summary>
+            <param name="propertyName">The dynamic property name</param>
+            <returns>The object property tracking</returns>
+        </member>
+        <member name="T:TrackerDog.IObjectGraphTrackingInfo">
+            <summary>
+            Defines an aggregation hierarchy of a given declared property change tracking
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectGraphTrackingInfo.AggregateHierarchy">
+            <summary>
+            Gets the aggregate hierarchy ordered from the deepest to top-most excluding the aggregate root.
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectGraphTrackingInfo.Parent">
+            <summary>
+            Gets aggregate root of the whole hierarchy
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectPropertyChangeTracking.Tracker">
+            <summary>
+            Gets the associated tracker
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectPropertyChangeTracking.TargetObject">
+            <summary>
+            Gets the object that owns current property change tracking
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectPropertyChangeTracking.PropertyName">
+            <summary>
+            Gets the tracked property name
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectPropertyChangeTracking.OldValue">
+            <summary>
+            Gets the value that had the whole tracked property when the tracking was started
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectPropertyChangeTracking.CurrentValue">
+            <summary>
+            Gets latest tracked property value
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectPropertyChangeTracking.HasChanged">
+            <summary>
+            Gets a flag to determine if the tracked property has changed since its tracking was started
+            </summary>
+        </member>
+        <member name="T:TrackerDog.IObjectPropertyInfo">
+            <summary>
+            Defines a type which holds metadata about a given type property.
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectPropertyInfo.PathParts">
+            <summary>
+            Gets a list where each item is the owner association for the next one
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectPropertyInfo.Property">
+            <summary>
+            Gets a reference to the last property in the path.
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IObjectPropertyInfo.Path">
+            <summary>
+            Gets a string, dot-separated representation of <see cref="P:TrackerDog.IObjectPropertyInfo.PathParts"/>
+            </summary>
+        </member>
+        <member name="T:TrackerDog.IReadOnlyChangeTrackableCollection">
+            <summary>
+            Defines a collection that can track changes of itself and its items where the state can be read but not written.
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IReadOnlyChangeTrackableCollection.AddedItems">
+            <summary>
+            Gets added items
+            </summary>
+        </member>
+        <member name="P:TrackerDog.IReadOnlyChangeTrackableCollection.RemovedItems">
+            <summary>
+            Gets removed items
+            </summary>
+        </member>
+        <member name="M:TrackerDog.ITrackableObjectFactory.CreateOf``1(System.Object[])">
+            <summary>
+            Creates a completely new trackable object of the given type
+            </summary>
+            <typeparam name="TObject">The type of the object to track</typeparam>
+            <param name="constructorArguments">Constructor arguments in order, if the whole type has a constructor with arguments.</param>
+            <returns>The change-trackable object</returns>
+        </member>
+        <member name="M:TrackerDog.ITrackableObjectFactory.CreateOf(System.Type,System.Object[])">
+            <summary>
+            Creates a completely new trackable object of the given type
+            </summary>
+            <param name="typeToTrack">The type of the object to track</param>
+            <param name="constructorArguments">Constructor arguments in order, if the whole type has a constructor with arguments.</param>
+            <returns>The change-trackable object</returns>
+        </member>
+        <member name="M:TrackerDog.ITrackableObjectFactory.CreateFrom``1(``0)">
+            <summary>
+            Creates a new trackable object wrapping a non-trackable one.
+            </summary>
+            <typeparam name="TObject">The type of the object to track</typeparam>
+            <param name="some">The whole object to wrap as trackable object</param>
+            <returns>The change-trackable object</returns>
+        </member>
+        <member name="M:TrackerDog.ITrackableObjectFactory.CreateFrom(System.Object)">
+            <summary>
+            Creates a new trackable object wrapping a non-trackable one.
+            </summary>
+            <param name="some">The whole object to wrap as trackable object</param>
+            <returns>The change-trackable object</returns>
+        </member>
+        <member name="T:TrackerDog.ObjectChangeEventArgs">
+            <summary>
+            Represents the arguments for <see cref="E:TrackerDog.IObjectChangeTracker.Changed"/> event.
+            </summary>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeEventArgs.#ctor(System.Object,TrackerDog.IObjectPropertyChangeTracking)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="targetObject">The object that changed</param>
+            <param name="propertyChangeTracking">The property change tracking of the property that changed on the target object</param>
+        </member>
+        <member name="P:TrackerDog.ObjectChangeEventArgs.TargetObject">
+            <summary>
+            Gets the target object that has changed
+            </summary>
+        </member>
+        <member name="P:TrackerDog.ObjectChangeEventArgs.PropertyChangeTracking">
+            <summary>
+            Gets the property change tracking of the property that changed on the target object
+            </summary>
+        </member>
+        <member name="T:TrackerDog.ObjectChangeTracker">
+            <summary>
+            Represents an in-memory object property change tracker.
+            </summary>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTracker.#ctor(TrackerDog.Configuration.IObjectChangeTrackingConfiguration,TrackerDog.ITrackableObjectFactoryInternal,System.Object)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="targetObject">The object to track its changes</param>
+        </member>
+        <member name="P:TrackerDog.ObjectChangeTracker.TargetObject">
+            <summary>
+            Gets the object to track its changes by current tracker
+            </summary>
+        </member>
+        <member name="P:TrackerDog.ObjectChangeTracker.TargetObjectType">
+            <summary>
+            Gets the object type of the o bject to track its changed by current tracker
+            </summary>
+        </member>
+        <member name="P:TrackerDog.ObjectChangeTracker.PropertyTrackings">
+            <summary>
+            Gets a dictionary of tracked property states, where the keys are instances of <see cref="T:System.Reflection.PropertyInfo"/> and
+            the values are <see cref="T:TrackerDog.DeclaredObjectPropertyChangeTracking"/>.
+            </summary>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTracker.AddOrUpdateTracking(System.Reflection.PropertyInfo,System.Object)">
+            <summary>
+            Adds or updates a tracked property state.
+            </summary>
+            <param name="property">The tracked property</param>
+            <param name="targetObject">The object owning the tracked property</param>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTracker.AddOrUpdateTracking(System.String,System.Dynamic.DynamicObject)">
+            <summary>
+            Adds or updates a tracked property state.
+            </summary>
+            <param name="propertyName">The tracked property name</param>
+            <param name="targetObject">The object owning the tracked property</param>
+        </member>
+        <member name="P:TrackerDog.ObjectChangeTrackingContext.State">
+            <summary>
+            Gets or sets tracked object state
+            </summary>
+        </member>
+        <member name="P:TrackerDog.ObjectChangeTrackingContext.Configuration">
+            <summary>
+            Gets associated change-tracking configuration
+            </summary>
+        </member>
+        <member name="P:TrackerDog.ObjectChangeTrackingContext.ChangeTracker">
+            <summary>
+            Gets the change tracker tracking this object
+            </summary>
+        </member>
+        <member name="P:TrackerDog.ObjectChangeTrackingContext.CollectionProperties">
+            <summary>
+            Gets a set of current object collection property metadata
+            </summary>
+        </member>
+        <member name="T:TrackerDog.ObjectChangeTrackingExtensions">
+            <summary>
+            Represents a set of object change-tracking related operations that work as façades to simplify the work
+            with change tracking.
+            </summary>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.BuildAllPropertyPaths(System.Type,System.Func{System.Reflection.PropertyInfo,System.Boolean})">
+            <summary>
+            Builds all paths to properties of given type as <see cref="T:TrackerDog.IObjectPropertyInfo"/> implementations
+            </summary>
+            <param name="someType">The type to which paths should be built from</param>
+            <param name="filter">A filter to include or exclude properties</param>
+            <returns>A set of all built property paths</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.IsTrackable(System.Object)">
+            <summary>
+            Determines if a given object is a change-trackable object already
+            </summary>
+            <param name="some">The object to check</param>
+            <returns><literal>true</literal> if it's change-trackable, <literal>false</literal> if it's not change-trackable</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.GetActualTypeIfTrackable(System.Object)">
+            <summary>
+            Gets if non-proxied object type is already change-trackable
+            </summary>
+            <param name="some">The whole object to check</param>
+            <returns><literal>true</literal> if it's trackable, <literal>false</literal> if it's not trackable</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.GetActualTypeIfTrackable(System.Type)">
+            <summary>
+            Gets if non-proxied type is already change-trackable
+            </summary>
+            <param name="some">The whole type to check</param>
+            <returns><literal>true</literal> if it's trackable, <literal>false</literal> if it's not trackable</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.IsTrackable(System.Type)">
+            <summary>
+            Determines if a given type is already change-trackable
+            </summary>
+            <param name="some">The type to check</param>
+            <returns><literal>true</literal> if it's change-trackable, <literal>false</literal> if it's not change-trackable</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.GetChangeTracker(System.Object)">
+            <summary>
+            Gets current tracked object change tracker.
+            </summary>
+            <param name="some">The change-tracked object</param>
+            <returns>The change tracker</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.GetPropertyTracking``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Gets a property change tracking for a given property
+            </summary>
+            <typeparam name="TObject">The type of tracked object</typeparam>
+            <typeparam name="TReturn">The type of the property</typeparam>
+            <param name="some">The tracked object</param>
+            <param name="propertySelector">A property selector</param>
+            <returns>The property tracking</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.GetPropertyTracking(System.Object,System.Reflection.PropertyInfo)">
+            <summary>
+            Gets a property change tracking for a given property
+            </summary>
+            <param name="some">The tracked object</param>
+            <param name="property">A property</param>
+            <returns>The property tracking</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.GetPropertyTracking(System.Object,System.String)">
+            <summary>
+            Gets a property change tracking for a given property
+            </summary>
+            <param name="some">The tracked object</param>
+            <param name="propertyName">A property selector</param>
+            <returns>The property tracking</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.AcceptChanges(System.Object)">
+            <summary>
+            Accepts all changes made to the change-tracked object and its associations.
+            </summary>
+            <param name="some">The change-tracked object</param>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.UndoChanges(System.Object)">
+            <summary>
+            Undoes all changes made to the change-tracked object and its associations.
+            </summary>
+            <param name="some">The change-tracked object</param>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.ToUntrackedEnumerable(System.Collections.IEnumerable,System.Type)">
+            <summary>
+            Iterates the given enumerable and returns an instance of given target collection type configured implementation
+            where each item will be also converted to untracked objects.
+            </summary>
+            <param name="enumerable">The whole enumerable to untrack</param>
+            <param name="targetCollectionType">The whole target collection type. This type should be a supported trackable collection type</param>
+            <returns>A copy of source enumerable turned into an untracked collection</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.ToUntypedUntracked(System.Object)">
+            <summary>
+            Turns given object and all associates to untrackable objects (i.e. POCO objects).
+            </summary>
+            <param name="some">The whole object to untrack</param>
+            <returns>The untracked version of given object</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.ToUntracked``1(``0)">
+            <summary>
+            Turns given object and all associates to untrackable objects (i.e. POCO objects).
+            </summary>
+            <typeparam name="TObject">The type of the whole object to untrack</typeparam>
+            <param name="some">The whole object to untrack</param>
+            <returns>The untracked version of given object</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.OldPropertyValue``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Gets the value of given selected property that had when the change-tracked object started to track its changes.
+            </summary>
+            <typeparam name="T">The type of the change-tracked object</typeparam>
+            <typeparam name="TReturn">The type of the property to gets its unchanged value</typeparam>
+            <param name="some">The change-tracked object</param>
+            <param name="propertySelector">The property selector</param>
+            <returns>The value of the property when it was started to be tracked</returns>
+            <example>
+            <code language="c#">
+            var oldValue = some.OldPropertyValue(o => o.Text);
+            </code>
+            </example>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.OldPropertyValue(System.Object,System.String)">
+            <summary>
+            Gets the value of given selected property that had when the change-tracked object started to track its changes.
+            </summary>
+            <param name="some">The change-tracked object</param>
+            <param name="propertyName">The property name</param>
+            <returns>The value of the property when it was started to be tracked</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.CurrentPropertyValue``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Gets the last value of given selected property.
+            </summary>
+            <typeparam name="T">The type of the change-tracked object</typeparam>
+            <typeparam name="TReturn">The type of the property to gets its last value</typeparam>
+            <param name="some">The change-tracked object</param>
+            <param name="propertySelector">The property selector</param>
+            <returns>The last value of the property</returns>
+            <example>
+            <code language="c#">
+            var currentValue = some.CurrentPropertyValue(o => o.Text);
+            </code>
+            </example>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.CurrentPropertyValue(System.Object,System.String)">
+            <summary>
+            Gets the last value of given selected property.
+            </summary>
+            <param name="some">The change-tracked object</param>
+            <param name="propertyName">The property name</param>
+            <returns>The last value of the property</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.PropertyHasChanged``1(``0,System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+            <summary>
+            Determines if a given property by selector has changed since its tracking was started.
+            </summary>
+            <typeparam name="T">The type of the object owning the whole property</typeparam>
+            <param name="some">The change-tracked object</param>
+            <param name="propertySelector">The property selector</param>
+            <returns><codeInline>true</codeInline> if it has changed, <codeInline>false</codeInline> if it doesn't changed.</returns>
+        </member>
+        <member name="M:TrackerDog.ObjectChangeTrackingExtensions.PropertyHasChanged(System.Object,System.String)">
+            <summary>
+            Determines if a given property by name has changed since its tracking was started.
+            </summary>
+            <param name="some">The trackable object</param>
+            <param name="propertyName">The property selector</param>
+            <returns><codeInline>true</codeInline> if it has changed, <codeInline>false</codeInline> if it doesn't changed.</returns>
+        </member>
+        <member name="T:TrackerDog.Patterns.IObjectChangeUnitOfWork">
+            <summary>
+            Defines what should provide a basic unit of work to accept or discard object changes.
+            </summary>
+        </member>
+        <member name="M:TrackerDog.Patterns.IObjectChangeUnitOfWork.Complete">
+            <summary>
+            Accepts all pending changes.
+            </summary>
+        </member>
+        <member name="M:TrackerDog.Patterns.IObjectChangeUnitOfWork.Discard">
+            <summary>
+            Discards all pending changes
+            </summary>
+        </member>
+        <member name="T:TrackerDog.ReflectionExtensions">
+            <summary>
+            Represents a set of reflection related operations
+            </summary>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.GetAllPropertyTypesRecursive(System.Type,System.Func{System.Reflection.PropertyInfo,System.Boolean})">
+            <summary>
+            Gets a set of all property types looking for them recursively for a given type
+            </summary>
+            <param name="parent">The type to look for property types</param>
+            <param name="filter">A fitler to include or exclude properties</param>
+            <returns>The set of all found property types</returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.GetAllBaseTypes(System.Type)">
+            <summary>
+            Gets all base types for a given derived type
+            </summary>
+            <param name="derivedType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsEnumerable(System.Type)">
+            <summary>
+            Determines if given type implements <see cref="T:System.Collections.Generic.IEnumerable`1"/>
+            </summary>
+            <param name="some">The whole type to check</param>
+            <returns><literal>true</literal> if it implements <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <literal>false</literal> if it doesn't implement <see cref="T:System.Collections.Generic.IEnumerable`1"/></returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsEnumerable(System.Reflection.PropertyInfo)">
+            <summary>
+            Determines if given property implements <see cref="T:System.Collections.Generic.IEnumerable`1"/>
+            </summary>
+            <param name="some">The whole property to check</param>
+            <returns><literal>true</literal> if it implements <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <literal>false</literal> if it doesn't implement <see cref="T:System.Collections.Generic.IEnumerable`1"/></returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.CreateInstanceWithGenericArgs(System.Type,System.Collections.Generic.IEnumerable{System.Object},System.Type[])">
+            <summary>
+            Creates an instance using reflection of given type where the type has generic parameters.
+            </summary>
+            <param name="some">The type to instantiate</param>
+            <param name="genericArgs">The whole generic parameters</param>
+            <param name="args">The constructor arguments of the given type</param>
+            <returns>The instance of given type</returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsPropertyGetter(System.Reflection.MemberInfo)">
+            <summary>
+            Determines if current member is a property getter.
+            </summary>
+            <param name="member">The member to determine if it's a property getter</param>
+            <returns><codeInline>true</codeInline> if it's a property getter, <codeInline>false</codeInline> if it's not a property getter</returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsIndexer(System.Reflection.PropertyInfo)">
+            <summary>
+            Determines if the given property is an indexer.
+            </summary>
+            <param name="property">The whole property to check</param>
+            <returns><literal>true</literal> if it's an indexer, <literal>false</literal> if it's not an indexer</returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsPropertySetter(System.Reflection.MemberInfo)">
+            <summary>
+            Determines if current member is a property setter.
+            </summary>
+            <param name="member">The member to determine if it's a property setter</param>
+            <returns><codeInline>true</codeInline> if it's a property setter, <codeInline>false</codeInline> if it's not a property setter</returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsPropertyGetterOrSetter(System.Reflection.MemberInfo)">
+            <summary>
+            Determines if current member is a property getter or setter.
+            </summary>
+            <param name="member">The member to determine if it's a property getter or setter</param>
+            <returns><codeInline>true</codeInline> if it's a property getter or setter, <codeInline>false</codeInline> if it's not a property getter or setter</returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.NormalizePropertyGetterSetterName(System.Reflection.MemberInfo)">
+            <summary>
+            Removes the <codeInline>get_</codeInline> or <codeInline>set_</codeInline> prefix of some property
+            getter or setter method name.
+            </summary>
+            <param name="member"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.GetBaseProperty(System.Reflection.PropertyInfo)">
+            <summary>
+            Gets base property implementation of a trackable object
+            </summary>
+            <param name="property">The derived property</param>
+            <returns>The base property implementation</returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsList(System.Reflection.PropertyInfo)">
+            <summary>
+            Determines if a given property is an implementation of <see cref="T:System.Collections.Generic.IList`1"/>
+            </summary>
+            <param name="property">The property to check</param>
+            <returns><codeInline>true</codeInline> if its an implementation of <see cref="T:System.Collections.Generic.IList`1"/>, <codeInline>false</codeInline> if it's not an implementation of <see cref="T:System.Collections.Generic.IList`1"/></returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsList(System.Type)">
+            <summary>
+            Determines if a given type is an implementation of <see cref="T:System.Collections.Generic.IList`1"/>
+            </summary>
+            <param name="type">The type to check</param>
+            <returns><codeInline>true</codeInline> if its an implementation of <see cref="T:System.Collections.Generic.IList`1"/>, <codeInline>false</codeInline> if it's not an implementation of <see cref="T:System.Collections.Generic.IList`1"/></returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsSet(System.Reflection.PropertyInfo)">
+            <summary>
+            Determines if a given property is an implementation of <see cref="T:System.Collections.Generic.ISet`1"/>
+            </summary>
+            <param name="property">The property to check</param>
+            <returns><codeInline>true</codeInline> if its an implementation of <see cref="T:System.Collections.Generic.ISet`1"/>, <codeInline>false</codeInline> if it's not an implementation of <see cref="T:System.Collections.Generic.ISet`1"/></returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsSet(System.Type)">
+            <summary>
+            Determines if a given type is an implementation of <see cref="T:System.Collections.Generic.ISet`1"/>
+            </summary>
+            <param name="type">The type to check</param>
+            <returns><codeInline>true</codeInline> if its an implementation of <see cref="T:System.Collections.Generic.ISet`1"/>, <codeInline>false</codeInline> if it's not an implementation of <see cref="T:System.Collections.Generic.ISet`1"/></returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.GetCollectionItemType(System.Object)">
+            <summary>
+            Given a <see cref="T:System.Collections.Generic.IEnumerable`1"/> implementation, gets the item type
+            (i.e. the generic type argument on collection implementation)
+            </summary>
+            <param name="some">The collection object</param>
+            <returns>The type of collection items</returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsDynamicObject(System.Type)">
+            <summary>
+            Determines if given type is a <see cref="T:System.Dynamic.DynamicObject"/> derived class
+            </summary>
+            <param name="some">The whole type of the possible dynamic object</param>
+            <returns><literal>true</literal> if it's a dynamic object, <literal>false</literal> if it's not a dynamic object</returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsPropertyOfDynamicObject(System.Reflection.PropertyInfo)">
+            <summary>
+            Checks if given property is declared on <see cref="T:System.Dynamic.DynamicObject"/>.
+            </summary>
+            <param name="property">The whole property</param>
+            <returns><literal>true</literal> if it's of <see cref="T:System.Dynamic.DynamicObject"/>, <literal>false</literal> if it's not.</returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsMethodOfDynamicObject(System.Reflection.MethodInfo)">
+            <summary>
+            Checks if given method is declared on <see cref="T:System.Dynamic.DynamicObject"/>.
+            </summary>
+            <param name="method">The whole method</param>
+            <returns><literal>true</literal> if it's of <see cref="T:System.Dynamic.DynamicObject"/>, <literal>false</literal> if it's not.</returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.IsDynamicObject(System.Object)">
+            <summary>
+            Determines if given object type is a <see cref="T:System.Dynamic.DynamicObject"/> derived class
+            </summary>
+            <param name="some">The whole possible dynamic object</param>
+            <returns><literal>true</literal> if it's a dynamic object, <literal>false</literal> if it's not a dynamic object</returns>
+        </member>
+        <member name="M:TrackerDog.ReflectionExtensions.CallMethod(System.Object,System.String,System.Collections.Generic.IEnumerable{System.Object},System.Reflection.BindingFlags)">
+            <summary>
+            Calls a method from current object by its name
+            </summary>
+            <param name="some">The object owning the method to call</param>
+            <param name="name">The name of the method to call</param>
+            <param name="args">Arguments to pass the whole method. Leave null if it's a parameterless method</param>
+            <param name="bindingFlags">The reflection binding flags to look for the whole method</param>
+            <returns>The return value obtained as result of calling the whole method</returns>
+        </member>
+        <member name="P:TrackerDog.TrackableObjectFactoryInternal.ProxyGenerator">
+            <summary>
+            Gets current proxy generator
+            </summary>
+        </member>
+    </members>
+</doc>
